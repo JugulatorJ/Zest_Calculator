@@ -14,10 +14,18 @@ def fruits_avq_diameter_cm():
 
 
 def display_fruits_table():
-    fruit_table = tabulate.tabulate(
-        zip(fruits_names(), fruits_avg_weights_grams().values(), fruits_avq_diameter_cm().values()),
-        headers=['FRUIT', 'AVG. WEIGHT (g)', 'AVG. DIAMETER (cm)'], tablefmt = 'fancy_grid')
-    print(fruit_table)
+    while True:
+        fruit_table = tabulate.tabulate(
+            zip(fruits_names(), fruits_avg_weights_grams().values(), fruits_avq_diameter_cm().values()),
+            headers=['FRUIT', 'AVG. WEIGHT (g)', 'AVG. DIAMETER (cm)'], tablefmt = 'fancy_grid')
+        print(fruit_table)
+        go_back = input()
+        if go_back == '':
+            break
+        else:
+            print('\nPRESS ENTER TO GET BACK TO MAIN MENU\n')
+    main()
+
 
 
 
