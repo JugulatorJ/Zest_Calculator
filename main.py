@@ -5,8 +5,12 @@ def fruits_names():
     return ['orange', 'grapefruit', 'lemon', 'lime', 'tangerine']
 
 def fruits_avg_weights_grams():
-    avg_weights = {'orange': 230, 'grapefruit': 400, 'lemon': 130, 'lime': 100, 'tangerine': 100}
-    return avg_weights
+    avg_weights_g = {'orange': 230, 'grapefruit': 400, 'lemon': 130, 'lime': 100, 'tangerine': 100}
+    return avg_weights_g
+
+def fruits_avg_weights_kilograms():
+    avg_weights_kg = {'orange': 0.23, 'grapefruit': 0.4, 'lemon': 0.13, 'lime': 0.1, 'tangerine': 0.1}
+    return avg_weights_kg
 
 def fruits_avq_diameter_cm():
     avg_diameters = {'orange': 6, 'grapefruit': 8, 'lemon': 4, 'lime': 4, 'tangerine': 4}
@@ -15,10 +19,11 @@ def fruits_avq_diameter_cm():
 
 def display_fruits_table():
     while True:
-        fruit_table = tabulate.tabulate(
-            zip(fruits_names(), fruits_avg_weights_grams().values(), fruits_avq_diameter_cm().values()),
-            headers=['FRUIT', 'AVG. WEIGHT (g)', 'AVG. DIAMETER (cm)'], tablefmt = 'fancy_grid')
+        fruit_table = tabulate.tabulate(zip(fruits_names(), fruits_avg_weights_grams().values(), fruits_avg_weights_kilograms().values(),
+                        fruits_avq_diameter_cm().values()), headers=['Fruit', 'Avg. Weight (g)', 'Avg. Weight (kg)', 'Avg. Diameter (cm)'],
+                        tablefmt='fancy_grid')
         print(fruit_table)
+        print('\nPRESS ENTER TO GET BACK TO MAIN MENU\n')
         go_back = input()
         if go_back == '':
             break
@@ -97,14 +102,18 @@ def unit_picker():
 
 
 
-def welcome():
-    welcome = '>>>Welcome in ZEST CALCULATOR FOR CRAFT BREWERIES!!!<<<\n'
-    len_welcome = len(welcome)
+def welcome_func():
+    welcome_txt = '>>>Welcome in ZEST CALCULATOR FOR CRAFT BREWERIES!!!<<<\n'
+    len_welcome_txt = len(welcome_txt)
     star = '*'
-    print(welcome, star * len_welcome, '\n')
+    welcome = (welcome_txt + star * len_welcome_txt + '\n')
+    return welcome
+
+
+
 
 def main():
-    welcome()
+    print(welcome_func())
     menu_pick = main_menu()
     if menu_pick == 4 :
         print('See you next time! ')
