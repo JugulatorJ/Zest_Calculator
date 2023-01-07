@@ -32,9 +32,6 @@ def display_fruits_table():
     main()
 
 
-
-
-
 def intensity_level():
     while True:
         try:
@@ -109,7 +106,65 @@ def welcome_func():
     welcome = (welcome_txt + star * len_welcome_txt + '\n')
     return welcome
 
+def beer_volume(unit_pair):
+    while True:
+        if unit_pair == 1:
+            try:
+                beer_volume = float(input('Enter beer volume in hectoliters: '))
+            except ValueError:
+                print('Invalid input. Please enter a number.')
+                continue
+            if beer_volume <= 0:
+                print('Invalid input. Please enter a number greater than 0.')
+                continue
+            else:
+                return beer_volume
+        elif unit_pair == 2:
+            try:
+                beer_volume = float(input('Enter beer volume in liters: '))
+            except ValueError:
+                print('Invalid input. Please enter a number.')
+                continue
+            if beer_volume <= 0:
+                print('Invalid input. Please enter a number greater than 0.')
+                continue
+            else:
+                return beer_volume
 
+def vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume):
+    low_ratio = [0.5, 1]
+    low_zest = []
+    medium_ratio = [1, 1.5]
+    medium_zest = []
+    high_ratio = [1.5, 2]
+    high_zest = []
+    very_high_ratio = [2, 2.5]
+    very_high_zest = []
+    if unit_pair == 1:
+        if aroma_intensity == 1:
+            for ratio in low_ratio:
+                zest = (volume * ratio)/10
+                low_zest.append(zest)
+            print("To infuse {} hectoliters of beer you need {}-{} kilograms of zest in total.".format(volume, low_zest[0], low_zest[1]))
+            return low_zest
+        if aroma_intensity == 2:
+            for ratio in medium_ratio:
+                zest = (volume * ratio)/10
+                medium_zest.append(zest)
+            print("To infuse {} hectoliters of beer you need {}-{} kilograms of zest in total.".format(volume, medium_zest[0], medium_zest[1]))
+            return medium_zest
+        if aroma_intensity == 3:
+            for ratio in high_ratio:
+                zest = (volume * ratio)/10
+                high_zest.append(zest)
+            print("To infuse {} hectoliters of beer you need {}-{} kilograms of zest in total.".format(volume, high_zest[0], high_zest[1]))
+            return high_zest
+        if aroma_intensity == 4:
+            for ratio in very_high_ratio:
+                zest = (volume * ratio)/10
+                very_high_zest.append(zest)
+            print("To infuse {} hectoliters of beer you need {}-{} kilograms of zest in total.".format(volume, very_high_zest[0], very_high_zest[1]))
+            return very_high_ratio
 
 
 def main():
@@ -123,8 +178,10 @@ def main():
     elif menu_pick == 2:
         display_fruits_table()
     elif menu_pick == 1:
-        units = unit_picker()
-        aroma = intensity_level()
+        unit_pair = unit_picker()
+        volume = beer_volume(unit_pair)
+        aroma_intensity = intensity_level()
+        vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume)
 
 
 print(main())
