@@ -58,16 +58,17 @@ def intensity_level():
 def about_program():
     while True:
         print("\nZEST CALCULATOR FOR CRAFT BREWERIES allows you to calculate amount of citrus fruits you need to buy for your beer.\n"
-              "The program stores data on the average weight and size of most common citrus fruits. In the first step you"
-              "will choose units.\nThen you will enter amount of zest you need. Program will calculate how many fruits you should buy"
-              " to produce such an amount of zest,\nsave this information in file and send this information to your co-workers"
-              "by e-mail. Press any ENTER to get back to main menu."
+              "Program will calculate how many fruits you should buy to produce specific amount of zest to get desired level of aroma intensity\n"
+              "Grams of zest per liter of beer is based on my own experience. The program assumes 15-40 minutes whirpool addition.\n"
+              "ZEST CALCULATOR FOR CRAFT BREWERIES will allow you to send an email with an order to your supplier and save a copy of it on your computer\n"
+              "CHEERS!!!\n"
+              "\n>>>PRESS ENTER TO GET BACK TO MAIN MENU<<<"
               )
         go_back = input()
         if go_back == '':
             break
-        else:
-            print('\nPRESS ENTER TO GET BACK TO MAIN MENU\n')
+        # else:
+        #     print('\nPRESS ENTER TO GET BACK TO MAIN MENU\n')
     main()
 
 
