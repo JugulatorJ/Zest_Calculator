@@ -166,6 +166,31 @@ def vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume):
                 very_high_zest.append(zest)
             print("To infuse {} hectoliters of beer you need {}-{} kilograms of zest in total.".format(volume, very_high_zest[0], very_high_zest[1]))
             return very_high_ratio
+    if unit_pair == 2:
+        if aroma_intensity == 1:
+            for ratio in low_ratio:
+                zest = volume * ratio
+                low_zest.append(zest)
+            print("To infuse {} liters of beer you need {}-{} grams of zest in total.".format(volume,low_zest[0],low_zest[1]))
+            return low_zest
+        if aroma_intensity == 2:
+            for ratio in medium_ratio:
+                zest = volume * ratio
+                medium_zest.append(zest)
+            print("To infuse {} hectoliters of beer you need {}-{} kilograms of zest in total.".format(volume,medium_zest[0],medium_zest[1]))
+            return medium_zest
+        if aroma_intensity == 3:
+            for ratio in high_ratio:
+                zest = volume * ratio
+                high_zest.append(zest)
+            print("To infuse {} hectoliters of beer you need {}-{} kilograms of zest in total.".format(volume, high_zest[0],high_zest[1]))
+            return high_zest
+        if aroma_intensity == 4:
+            for ratio in very_high_ratio:
+                zest = volume * ratio
+                very_high_zest.append(zest)
+            print("To infuse {} hectoliters of beer you need {}-{} kilograms of zest in total.".format(volume,very_high_zest[0],very_high_zest[1]))
+            return very_high_ratio
 
 
 def main():
