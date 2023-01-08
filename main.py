@@ -5,7 +5,7 @@ def fruits_names():
     return ['orange', 'grapefruit', 'lemon', 'lime', 'tangerine']
 
 def fruits_avg_weights_grams():
-    avg_weights_g = {'orange': 230, 'grapefruit': 400, 'lemon': 130, 'lime': 100, 'tangerine': 100}
+    avg_weights_g = {'orange': 230, 'grapefruit': 250, 'lemon': 123, 'lime': 115, 'tangerine': 123}
     return avg_weights_g
 
 def fruits_avg_weights_kilograms():
@@ -15,6 +15,20 @@ def fruits_avg_weights_kilograms():
 def fruits_avq_diameter_cm():
     avg_diameters = {'orange': 6, 'grapefruit': 8, 'lemon': 4, 'lime': 4, 'tangerine': 4}
     return avg_diameters
+
+def fruit_avg_weight_after_peeling_grams():
+    avg_weights_after_peeling_g = {'orange': 220, 'grapefruit': 239, 'lemon': 118, 'lime': 111, 'tangerine': 118}
+    return avg_weights_after_peeling_g
+
+def fruit_avg_weight_after_peeling_kilograms():
+    avg_weights_after_peeling_g = {'orange': 0.22, 'grapefruit': 0.239, 'lemon': 0.118, 'lime': 0.111, 'tangerine': 0.118}
+    return avg_weights_after_peeling_kg
+
+def zest_from_one_fruit_grams(fruits_avg_weights_grams, fruit_avg_weight_after_peeling_grams):
+    before_peeling = fruits_avg_weights_grams()
+    after_peeling = fruit_avg_weight_after_peeling_grams()
+    single_fruit_zest_g = {key: before_peeling[key] - after_peeling.get(key, 0) for key in before_peeling}
+    return single_fruit_zest_g
 
 
 def display_fruits_table():
@@ -30,7 +44,6 @@ def display_fruits_table():
         else:
             print('\nPRESS ENTER TO GET BACK TO MAIN MENU\n')
     main()
-
 
 def intensity_level():
     while True:
@@ -101,7 +114,7 @@ def unit_picker():
 
 
 def welcome_func():
-    welcome_txt = '>>>Welcome in ZEST CALCULATOR FOR CRAFT BREWERIES!!!<<<\n'
+    welcome_txt = '>>>Welcome to ZEST CALCULATOR FOR CRAFT BREWERIES!!!<<<\n'
     len_welcome_txt = len(welcome_txt)
     star = '*'
     welcome = (welcome_txt + star * len_welcome_txt + '\n')
@@ -208,6 +221,5 @@ def main():
         volume = beer_volume(unit_pair)
         aroma_intensity = intensity_level()
         vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume)
-
 
 print(main())
