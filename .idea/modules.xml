@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Zest Calculator.iml" filepath="$PROJECT_DIR$/.idea/Zest Calculator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Zest_Calculator.iml" filepath="$PROJECT_DIR$/.idea/Zest_Calculator.iml" />
     </modules>
   </component>
 </project>
