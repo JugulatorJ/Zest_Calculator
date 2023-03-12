@@ -60,29 +60,12 @@ def display_fruits_table():
         go_back_func(main)
 
 
-def intensity_level():
-    while True:
-        print('Choose desired level of citrus zest aroma.')
-        try:
-            print('1. Low\n2. Medium\n3. High\n4. Very high')
-            aroma_intensity = int(input('\nPick an aroma intensity level [1-4]:\n>>> '))
-            if aroma_intensity == 1:
-                print('\nYou picked low aroma intensity.\n')
-                return aroma_intensity
-            elif aroma_intensity == 2:
-                print('\nYou picked medium aroma intensity.\n')
-                return aroma_intensity
-            elif aroma_intensity == 3:
-                print('\nYou picked high aroma intensity.\n')
-                return aroma_intensity
-            elif aroma_intensity == 4:
-                print('\nYou picked very high aroma intensity.\n')
-                return aroma_intensity
-            else:
-                print('\nInvalid input. Value must be integer. Pick a level in range [1-4].')
-        except ValueError:
-            print('\nInvalid input. Value must be integer. Pick a level in range [1-4].')
-            continue
+def welcome_func():
+    welcome_txt = '>>>Welcome to ZEST CALCULATOR FOR CRAFT BREWERIES!!!<<<\n'
+    len_welcome_txt = len(welcome_txt)
+    star = '*'
+    welcome = (welcome_txt + star * len_welcome_txt + '\n')
+    return welcome
 
 
 def go_back_func(func):
@@ -113,13 +96,17 @@ def about_program():
 def main_menu():
     print("[1] Calculate amount of zest you need\n[2] Display citrus fruits table. \n[3] About program\n[4] Exit\n")
     while True:
+        menu_pick = input('What do you want to do? Pick a number [1 - 4]:')
         try:
-            menu_pick = int(input('What do you want to do? Pick a number [1 - 4]:\n>>> '))
-            print('\n')
+            menu_pick = int(menu_pick)
             if 1 <= menu_pick <= 4:
+                print('\n')
                 return menu_pick
+            else:
+                print("Enter integer value 1-4")
         except ValueError:
-            continue
+            print("Enter integer value 1-4")
+
 
 
 def unit_picker():
@@ -138,14 +125,6 @@ def unit_picker():
         except ValueError:
             print('\nInvalid input.\n')
             continue
-
-
-def welcome_func():
-    welcome_txt = '>>>Welcome to ZEST CALCULATOR FOR CRAFT BREWERIES!!!<<<\n'
-    len_welcome_txt = len(welcome_txt)
-    star = '*'
-    welcome = (welcome_txt + star * len_welcome_txt + '\n')
-    return welcome
 
 
 def beer_volume(unit_pair):
@@ -176,12 +155,38 @@ def beer_volume(unit_pair):
                 return beer_vol
 
 
+def intensity_level():
+    while True:
+        print('Choose desired level of citrus zest aroma.')
+        try:
+            print('1. Low\n2. Medium\n3. High\n4. Very high')
+            aroma_intensity = int(input('\nPick an aroma intensity level [1-4]:\n>>> '))
+            if aroma_intensity == 1:
+                print('\nYou picked low aroma intensity.\n')
+                return aroma_intensity
+            elif aroma_intensity == 2:
+                print('\nYou picked medium aroma intensity.\n')
+                return aroma_intensity
+            elif aroma_intensity == 3:
+                print('\nYou picked high aroma intensity.\n')
+                return aroma_intensity
+            elif aroma_intensity == 4:
+                print('\nYou picked very high aroma intensity.\n')
+                return aroma_intensity
+            else:
+                print('\nInvalid input. Value must be integer. Pick a level in range [1-4].')
+        except ValueError:
+            print('\nInvalid input. Value must be integer. Pick a level in range [1-4].')
+            continue
+
+
 def vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume):
     low_ratio = [0.5, 1]
     medium_ratio = [1, 1.5]
     high_ratio = [1.5, 2]
     very_high_ratio = [2, 2.5]
     zest_range = []
+
     if unit_pair == 1:
         if aroma_intensity == 1:
             for ratio in low_ratio:
@@ -191,6 +196,7 @@ def vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume):
                                                                                                        zest_range[0],
                                                                                                        zest_range[1]))
             return zest_range
+
         if aroma_intensity == 2:
             for ratio in medium_ratio:
                 zest = (volume * ratio)/10
@@ -199,6 +205,7 @@ def vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume):
                                                                                                        zest_range[0],
                                                                                                        zest_range[1]))
             return zest_range
+
         if aroma_intensity == 3:
             for ratio in high_ratio:
                 zest = (volume * ratio)/10
@@ -207,6 +214,7 @@ def vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume):
                                                                                                        zest_range[0],
                                                                                                        zest_range[1]))
             return zest_range
+
         if aroma_intensity == 4:
             for ratio in very_high_ratio:
                 zest = (volume * ratio)/10
@@ -215,6 +223,7 @@ def vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume):
                                                                                                        zest_range[0],
                                                                                                        zest_range[1]))
             return zest_range
+
     if unit_pair == 2:
         if aroma_intensity == 1:
             for ratio in low_ratio:
@@ -251,6 +260,7 @@ def choose_fruits_and_amount():
     fruit = list(fruits_avg_weights_grams().keys())
     fruit.sort()
     menu = list(enumerate(fruit))
+    print('\n')
     print('CHOOSE CITRUSES!!!\n')
     for option in menu:
         print('[{}] {}'.format(option[0] + 1, option[1]))
@@ -290,7 +300,6 @@ def choose_fruits_and_amount():
                 print('You have added {} to the list of fruits.\n'.format(menu[pick - 1][1]))
             elif pick == 6:
                 return chosen_fruits
-
             else:
                 print('Invalid input. Please try again.')
                 continue
@@ -298,93 +307,68 @@ def choose_fruits_and_amount():
             print('Invalid input. Please try again.')
             continue
 
-# NEEDS REFACTORING
-def enter_zest_amount(chosen_fruits, unit_pair, zest_range):
+
+def enter_zest_amount(chosen_fruits, unit_pair, zest_range):  # NEEDS REFACTORING
     srtd_list_chosen_fruits = sorted(list(chosen_fruits))
     list_of_chosen_fruits_dicts = [{fruit: 0} for fruit in srtd_list_chosen_fruits]
+    current_sum = 0
     if unit_pair == 1:
         while True:
-            print('Current sum of zest is {} kg'.format(sum([list(x.values())[0] for x in list_of_chosen_fruits_dicts])))
+            print('Current sum of zest is {} kg'.format(current_sum))
             print(list_of_chosen_fruits_dicts)
             print("You need {}-{} kg of zest".format(zest_range[0], zest_range[1]))
-            print('Enter name of citrus or type "menu to go back to main menu"')
+            print('Enter name of citrus or type "MENU" to go back to main menu"')
             name = input('>>>')
-            if name in srtd_list_chosen_fruits:
+            if name.lower() == 'menu':
+                go_back_func(main)
+
+            elif name in srtd_list_chosen_fruits:
                 print("Enter amount of zest in kilograms. Use '-' to subtract from current amount.")
                 amount = float(input('>>>'))
-                for fruit_dict in list_of_chosen_fruits_dicts:
-                    if name in fruit_dict.keys():
-                        fruit_dict[name] += amount
-                        print('\n{:-^75}\n'.format('Enter next citrus or type "done" to proceed'))
-                    # elif name == 'done':
-                    #     return print(sum([list(x.values())[0] for x in list_of_chosen_fruits_dicts]))
+                if current_sum + amount < 0:
+                    print('Negative zest amount is not allowed.')
+                    continue
+                else:
+                    for fruit_dict in list_of_chosen_fruits_dicts:
+                        if name in fruit_dict:
+                            fruit_dict[name] += amount
+                            current_sum = sum([list(x.values())[0] for x in list_of_chosen_fruits_dicts])
+                print('{:-^75}\n'.format('Enter another citrus'))
+
             else:
                 print('Invalid input. Please try again.')
                 continue
+            if zest_range[0] <= current_sum <= zest_range[1]:
+                print("You have reached the desired amount of zest.")
+                print("You can proceed by typing 'DONE' or keep modifying amount of zest ")
 
+            elif current_sum < zest_range[0]:
+                print("Not enough zest yet. You need to add more.")
+            elif current_sum > zest_range[1]:
+                print("Too much zest. You need to remove some.")
 
-
-
-
-    # print('\nYou have chosen following fruits: {}'.format(chosen_fruits_list))
-    # print('\n')
-    # citrus_zest_dict = {}
-    # users_total_zest = 0
-    # if unit_pair == 1:
-    #     print("You need {}-{} kg of zest".format(zest_range[0], zest_range[1]))
-    #     print('Enter amount of zest in kilograms')
-    #     print()
-    #     try:
-    #         while True:
-    #             for citrus in chosen_fruits_list:
-    #                 zest_amount = float(input('{} >>>'.format(citrus)))
-    #                 citrus_zest_pair = {citrus: zest_amount}
-    #                 citrus_zest_dict.update(citrus_zest_pair)
-    #                 users_total_zest = round(sum(citrus_zest_dict.values()), 2)
-    #                 print(type(zest_range[0]))
-    #                 if zest_range[0] <= zest_amount <= zest_range[1]:
-    #                     print('OK! Proceed?')
-    #                 elif zest_range[0] > users_total_zest:
-    #                     print('To little')
-    #                     break
-    #                 elif users_total_zest > zest_range[1]:
-    #                     print("To much")
-    #             print(users_total_zest)
-    #
-    #     except ValueError:
-    #         print('Enter amount of zest in kilograms. Value must be integer.')
-    # elif unit_pair == 2:
-    #     print("You need {}-{} g of zest".format(zest_range[0], zest_range[1]))
-    #     print('Enter amount of zest in grams')
-    #     try:
-    #         for citrus in chosen_fruits_list:
-    #             zest_amount = float(input('{} >>>'.format(citrus)))
-    #             citrus_zest_pair = {citrus: zest_amount}
-    #             citrus_zest_dict.update(citrus_zest_pair)
-    #             users_total_zest = sum(citrus_zest_dict.values())
-    #         print(users_total_zest)
-    #     except ValueError:
-    #         print('Enter amount of zest in grams. Value must be integer.')
 
 
 def main():
 
-    print(welcome_func())
-    menu_pick = main_menu()
-    if menu_pick == 4:
-        print('See you next time! ')
-        quit()
-    elif menu_pick == 3:
-        about_program()
-    elif menu_pick == 2:
-        display_fruits_table()
-    elif menu_pick == 1:
-        unit_pair = unit_picker()
-        volume = beer_volume(unit_pair)
-        aroma_intensity = intensity_level()
-        zest_range = vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume)
-        chosen_fruits = choose_fruits_and_amount()
-        enter_zest_amount(chosen_fruits, unit_pair, zest_range)
+    while True:
+        print(welcome_func())
+        menu_pick = main_menu()
+        if menu_pick == 4:
+            print('See you next time! ')
+            quit()
+        elif menu_pick == 3:
+            about_program()
+        elif menu_pick == 2:
+            display_fruits_table()
+        elif menu_pick == 1:
+            unit_pair = unit_picker()
+            volume = beer_volume(unit_pair)
+            aroma_intensity = intensity_level()
+            zest_range = vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume)
+            chosen_fruits = choose_fruits_and_amount()
+            enter_zest_amount(chosen_fruits, unit_pair, zest_range)
 
 
-print(main())
+if __name__ == '__main__':
+    main()
