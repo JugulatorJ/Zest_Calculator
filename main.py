@@ -114,11 +114,10 @@ def unit_picker():
         print('Choose your units:\n[1] Hectoliters and Kilograms\n[2] Liters and Grams\n[3] Main menu')
         try:
             unit_pair = int(input('Pick a unit pair [1-2] or go back to main menu [3]:\n>>> '))
-            if 1 <= unit_pair <= 3:
-                if 1 <= unit_pair <= 2:
-                    return unit_pair
-                elif unit_pair == 3:
-                    go_back_func(main)
+            if 1 <= unit_pair <= 2:
+                return unit_pair
+            elif unit_pair == 3:
+                go_back_func(main)
             else:
                 print('Invalid input.\n')
                 continue
