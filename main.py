@@ -87,8 +87,8 @@ def about_program():
         print("ZEST CALCULATOR FOR CRAFT BREWERIES allows you to calculate amount of citrus fruits you need to buy for "
               "your beer.\nProgram will calculate how many fruits you should buy to produce specific amount of zest to "
               "get desired level of aroma intensity\nGrams of zest per liter of beer is based on my own experience. "
-              "The program assumes 15-40 minutes whirlpool addition.\nZEST CALCULATOR FOR CRAFT BREWERIES will allow you"
-              " to send an email with an order to your supplier and save a copy of it on your computer\nCHEERS!!!\n"
+              "The program assumes 15-40 minutes whirlpool addition.\nZEST CALCULATOR FOR CRAFT BREWERIES will allow"
+              " you to send an email with an order to your supplier and save a copy of it on your computer\nCHEERS!!!\n"
               )
         go_back_func(main)
 
@@ -106,7 +106,6 @@ def main_menu():
                 print("Enter integer value 1-4")
         except ValueError:
             print("Enter integer value 1-4")
-
 
 
 def unit_picker():
@@ -258,11 +257,11 @@ def choose_fruits_and_amount():
     chosen_fruits = set()
     fruit = list(fruits_avg_weights_grams().keys())
     fruit.sort()
-    menu = list(enumerate(fruit))
+    menu = list(enumerate(fruit, 1))
     print('\n')
     print('CHOOSE CITRUSES!!!\n')
     for option in menu:
-        print('[{}] {}'.format(option[0] + 1, option[1]))
+        print('[{}] {}'.format(option[0], option[1]))
     print('[{}] Approve list of fruits and proceed'.format(len(menu) + 1))
     print('[{}] Clear list of fruits and start over again'.format(len(menu) + 2))
     print('[{}] Go back to main menu\n'.format(len(menu) + 3))
@@ -274,10 +273,10 @@ def choose_fruits_and_amount():
                 go_back_func(main)
                 fruit = list(fruits_avg_weights_grams().keys())
                 fruit.sort()
-                menu = list(enumerate(fruit))
+                menu = list(enumerate(fruit, 1))
                 print('CHOOSE CITRUSES!!!\n')
                 for option in menu:
-                    print('[{}] {}'.format(option[0] + 1, option[1]))
+                    print('[{}] {}'.format(option[0], option[1]))
                 print('[{}] Approve list of fruits and proceed'.format(len(menu) + 1))
                 print('[{}] Clear list of fruits and start over again'.format(len(menu) + 2))
                 print('[{}] Go back to main menu\n'.format(len(menu) + 3))
@@ -286,11 +285,10 @@ def choose_fruits_and_amount():
                 print('List cleared! Choose your fruits again!\n')
                 fruit = list(fruits_avg_weights_grams().keys())
                 fruit.sort()
-                menu = list(enumerate(fruit))
-                menu = list(enumerate(fruit))
+                menu = list(enumerate(fruit, 1))
                 print('CHOOSE CITRUSES!!!\n')
                 for option in menu:
-                    print('[{}] {}'.format(option[0] + 1, option[1]))
+                    print('[{}] {}'.format(option[0], option[1]))
                 print('[{}] Approve list of fruits and proceed'.format(len(menu) + 1))
                 print('[{}] Clear list of fruits and start over again'.format(len(menu) + 2))
                 print('[{}] Go back to main menu\n'.format(len(menu) + 3))
@@ -307,49 +305,135 @@ def choose_fruits_and_amount():
             continue
 
 
-def enter_zest_amount(chosen_fruits, unit_pair, zest_range):  # NEEDS REFACTORING
-    srtd_list_chosen_fruits = sorted(list(chosen_fruits))
-    list_of_chosen_fruits_dicts = [{fruit: 0} for fruit in srtd_list_chosen_fruits]
+def enter_zest_amount(chosen_fruits, unit_pair, zest_range):
+
     current_sum = 0
+    list_of_chosen_fruits_dicts = {fruit: 0 for fruit in chosen_fruits}
+
     if unit_pair == 1:
         while True:
-            print('Current sum of zest is {} kg'.format(current_sum))
+            print(f'Current sum of zest is {current_sum} kg')
+
+            if current_sum < zest_range[0]:
+                print('Not enough zest yet. You need to add more.')
+
             print(list_of_chosen_fruits_dicts)
-            print("You need {}-{} kg of zest".format(zest_range[0], zest_range[1]))
-            print('Enter name of citrus or type "MENU" to go back to main menu"')
-            name = input('>>>')
-            if name.lower() == 'menu':
-                go_back_func(main)
+            print(f'You need {zest_range[0]}-{zest_range[1]} kg of zest')
+            print('Enter name of citrus or type "MENU" to go back to main menu')
 
-            elif name in srtd_list_chosen_fruits:
-                print("Enter amount of zest in kilograms. Use '-' to subtract from current amount.")
-                amount = float(input('>>>'))
-                if current_sum + amount < 0:
-                    print('Negative zest amount is not allowed.')
-                    continue
-                else:
-                    for fruit_dict in list_of_chosen_fruits_dicts:
-                        if name in fruit_dict:
-                            fruit_dict[name] += amount
-                            current_sum = sum([list(x.values())[0] for x in list_of_chosen_fruits_dicts])
-                print('{:-^75}\n'.format('Enter another citrus'))
+            name = input('>>>').lower()
 
-            else:
+            if name == 'menu':
+                go_back_func(main())
+                break
+
+            if name not in chosen_fruits:
                 print('Invalid input. Please try again.')
                 continue
+
+            print('Enter amount of zest in kilograms. Use "-" to subtract from current amount.')
+
+            try:
+                amount = round(float(input('>>>')), 3)
+            except ValueError:
+                print('Invalid input. Please try again.')
+                continue
+
+            list_of_chosen_fruits_dicts[name] += round(amount, 3)
+
+            if list_of_chosen_fruits_dicts[name] < 0:
+                print('Negative zest amount is not allowed.')
+                list_of_chosen_fruits_dicts[name] -= round(amount, 3)
+                list_of_chosen_fruits_dicts[name] = 0
+                current_sum = round(sum(list_of_chosen_fruits_dicts.values()), 3)
+                continue
+
+            if current_sum + amount < 0:
+                print('Negative zest amount is not allowed.')
+            else:
+                current_sum = round(sum(list_of_chosen_fruits_dicts.values()), 3)
+
+            if current_sum > zest_range[1]:
+                print('Too much zest. You need to remove some.')
+
             if zest_range[0] <= current_sum <= zest_range[1]:
-                print("You have reached the desired amount of zest.")
-                print("You can proceed by typing 'DONE' or keep modifying amount of zest ")
+                print('You have reached the desired amount of zest.')
+                print("You can proceed by typing 'DONE' or keep modifying amount of zest by pressing ENTER button.")
+                while True:
+                    name = input('>>>')
+                    if name == '':
+                        print('{:-^75}'.format('Enter another citrus'))
+                        continue
+                    elif name.lower() != 'done':
+                        print('Invalid input. Please try again.')
+                    else:
+                        return list_of_chosen_fruits_dicts
 
-            elif current_sum < zest_range[0]:
-                print("Not enough zest yet. You need to add more.")
-            elif current_sum > zest_range[1]:
-                print("Too much zest. You need to remove some.")
+    if unit_pair == 2:
+        while True:
+            print(f'Current sum of zest is {current_sum} g')
 
+            if current_sum < zest_range[0]:
+                print('Not enough zest yet. You need to add more.')
+
+            print(list_of_chosen_fruits_dicts)
+            print(f'You need {zest_range[0]}-{zest_range[1]} g of zest')
+            print('Enter name of citrus or type "MENU" to go back to main menu')
+
+            name = input('>>>').lower()
+
+            if name == 'menu':
+                go_back_func(main())
+                break
+
+            if name not in chosen_fruits:
+                print('Invalid input. Please try again.')
+                continue
+
+            print('Enter amount of zest in kilograms. Use "-" to subtract from current amount.')
+
+            try:
+                amount = round(float(input('>>>')), 3)
+            except ValueError:
+                print('Invalid input. Please try again.')
+                continue
+
+            list_of_chosen_fruits_dicts[name] += round(amount, 3)
+
+            if list_of_chosen_fruits_dicts[name] < 0:
+                print('Negative zest amount is not allowed.')
+                list_of_chosen_fruits_dicts[name] -= round(amount, 3)
+                list_of_chosen_fruits_dicts[name] = 0
+                current_sum = round(sum(list_of_chosen_fruits_dicts.values()), 3)
+                continue
+
+            if current_sum + amount < 0:
+                print('Negative zest amount is not allowed.')
+            else:
+                current_sum = round(sum(list_of_chosen_fruits_dicts.values()), 3)
+
+            if current_sum > zest_range[1]:
+                print('Too much zest. You need to remove some.')
+
+            if zest_range[0] <= current_sum <= zest_range[1]:
+                print('Current sum of zest is {}'.format(current_sum))
+                print('You have reached the desired amount of zest.')
+                print("You can proceed by typing 'DONE' or keep modifying amount of zest by pressing ENTER button.")
+                while True:
+                    name = input('>>>')
+                    if name == '':
+                        print('{:-^75}'.format('Enter another citrus'))
+                        break
+                    elif name.lower() != 'done':
+                        print('Invalid input. Please try again.')
+                        print('You have reached the desired amount of zest.')
+                        print("You can proceed by typing 'DONE' or keep modifying "
+                              "amount of zest by pressing ENTER button.")
+                    else:
+                        return list_of_chosen_fruits_dicts
 
 
 def main():
-
     while True:
         print(welcome_func())
         menu_pick = main_menu()
@@ -366,7 +450,8 @@ def main():
             aroma_intensity = intensity_level()
             zest_range = vol_zest_aroma_ratio(unit_pair, aroma_intensity, volume)
             chosen_fruits = choose_fruits_and_amount()
-            enter_zest_amount(chosen_fruits, unit_pair, zest_range)
+            list_of_chosen_fruits_dicts = enter_zest_amount(chosen_fruits, unit_pair, zest_range)
+            print(list_of_chosen_fruits_dicts)
 
 
 if __name__ == '__main__':
